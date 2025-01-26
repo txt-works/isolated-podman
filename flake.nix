@@ -8,12 +8,15 @@
    flake-utils.lib.eachDefaultSystem (system:
      let
        pkgs = import nixpkgs { inherit system; };
-       configFiles = pkgs.runCommand "podman-config" {} ''
-         mkdir -p $out/config/{podman,containers}
-         cp ${./config/podman/registries.conf} $out/config/podman/
-         cp ${./config/containers/containers.conf} $out/config/containers/
-         cp ${./config/containers/policy.json} $out/config/containers/
-       '';
+       configFiles = pkgs.stdenv.mkDerivation {
+         name = "podman-config";
+         src = ./config;
+         
+         installPhase = ''
+           mkdir -p $out/config
+           cp -r * $out/config/
+         '';
+       };
        mkPodmanWrapper = pkgs.writeShellScriptBin "podman" ''
          current_dir="$(pwd)" 
          export HOME="$current_dir/.state/podman"
