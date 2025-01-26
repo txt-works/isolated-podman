@@ -31,6 +31,7 @@
        '';
      in {
        packages.default = mkPodmanWrapper;
+       packages.configFiles = configFiles;
        devShell = pkgs.mkShell {
          buildInputs = [
            mkPodmanWrapper
