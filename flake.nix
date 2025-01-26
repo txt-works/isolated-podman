@@ -12,12 +12,11 @@
 
           # TODO: need optimisation: move out and built / install stage only (trigger each call of podman, not efficient approach)
           current_dir="$(pwd)"
-          export HOME="$current_dir/.state/podman/"
+          export HOME="$current_dir/.state/podman"
           mkdir -p "$HOME/.config/podman"
           mkdir -p "$HOME/.config/containers"
 
           export CONTAINERS_REGISTRIES_CONF="$HOME/.config/podman/registries.conf"
-          env
 
           cp "$current_dir/.config/podman/registries.conf" "$HOME/.config/podman/registries.conf"
           cp "$current_dir/.config/containers/containers.conf" "$HOME/.config/containers/containers.conf"
