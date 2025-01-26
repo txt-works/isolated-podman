@@ -10,12 +10,12 @@
         pkgs = import nixpkgs { inherit system; };
         mkPodmanWrapper = pkgs.writeShellScriptBin "podman" ''
           current_dir="$(pwd)"
-          echo '***********'
-          echo $current_dir
-          echo '***********'
-          export HOME="$current_dir/.state/podman"
-          mkdir -p "$HOME/.config/containers"
-          cp "$current_dir/.config/containers/" "$HOME/.config/containers/"
+          export HOME="$current_dir/.state/podman/"
+          mkdir -p "$HOME/.config/podman"
+          # TODO: need optimisation and move out and built / install stage only
+          cp "$current_dir/.config/podman/containers.conf" "$HOME/.config/podman/containers.conf"
+          cp "$current_dir/.config/podman/registries.conf" "$HOME/.config/podman/registries.conf"
+          cp "$current_dir/.config/containers/policy.json" "$HOME/.config/containers/policy.json"
           exec ${pkgs.podman}/bin/podman "$@"
         '';
       in {
